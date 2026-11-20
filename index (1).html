@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f9ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sudu&Madu">
+<title>Sudu&amp;Madu</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f9ff;--card:#fff;--accent:#9ccdf7;--accent-d:#4f9fe6;--ink:#1d3a5a;--mute:#7b95b0;--line:#dcebf9;--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(180deg,#fff 0,var(--bg) 260px) no-repeat var(--bg);color:var(--ink);font:400 16px/1.5 'DM Sans',system-ui,sans-serif;min-height:100vh;padding:var(--sat) 0 calc(84px + var(--sab))}
+button{font-family:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+header{position:relative;text-align:center;padding:14px 16px 6px}
+.logo{font:800 34px/1 'Fraunces',Georgia,serif;letter-spacing:-.02em}
+.logo i{font-style:normal;color:var(--accent);font-weight:600;margin:0 2px}.logo b{color:var(--accent-d);font-weight:800}
+.tag{color:var(--mute);font-size:14px;margin-top:2px}
+.ref{position:absolute;right:14px;top:12px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:18px}
+/* nav */
+nav{position:fixed;z-index:20;left:0;right:0;bottom:0;display:flex;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:8px 8px calc(8px + var(--sab))}
+nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--mute);padding:4px}
+nav a.on{color:var(--ink);font-weight:700}
+nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* chips + headings */
+h2.sec{font:600 24px 'Fraunces',serif;margin:18px 2px 12px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:500}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#14355a;font-weight:700}
+/* album cards */
+.cards{display:grid;gap:16px;grid-template-columns:1fr}
+.card{background:var(--card);border-radius:22px;padding:10px 10px 14px;box-shadow:0 4px 18px rgba(79,159,230,.13);display:block}
+.card .cov{aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:var(--line)}
+.card .cov img{width:100%;height:100%;object-fit:cover;display:block}
+.card h3{font:600 19px 'DM Sans',sans-serif;margin:12px 8px 6px}
+.card .meta{display:flex;justify-content:space-between;gap:8px;margin:0 8px;font-size:13px;color:var(--mute)}
+/* album page */
+.top{display:flex;align-items:center;gap:12px;margin:14px 0 4px}
+.back{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);font-size:18px;color:var(--ink);display:grid;place-items:center}
+.top h2{font:600 24px 'Fraunces',serif;line-height:1.15}
+.sub{color:var(--mute);font-size:14px;margin:0 2px 12px 52px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.row .chips{padding:0;flex:1}
+.add{background:var(--accent-d);color:#fff;border-radius:999px;padding:8px 16px;font-weight:700;font-size:14px}
+.grid{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
+.tile{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--line);border:0;padding:0;box-shadow:0 2px 10px rgba(79,159,230,.12)}
+.tile img{width:100%;height:100%;object-fit:cover;display:block}
+.tile .pl{position:absolute;right:6px;bottom:6px;background:rgba(14,30,50,.6);color:#fff;border-radius:999px;font-size:12px;padding:1px 8px}
+.tile .hh{position:absolute;left:6px;top:4px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5);font-size:16px}
+/* category tiles */
+.cats{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+.ct{display:block;border-radius:20px;padding:8px 8px 12px;box-shadow:0 3px 14px rgba(79,159,230,.1)}
+.cim{aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.75);display:grid;place-items:center;font-size:46px}
+.cim img{width:100%;height:100%;object-fit:cover;display:block}
+.ct b{display:block;font:600 15px 'DM Sans',sans-serif;margin:10px 4px 2px}
+.ct small{display:block;margin:0 4px;font-size:12px;color:var(--mute)}
+/* add page */
+.addwrap{max-width:640px;margin:0 auto}
+.form{margin:12px 0}.form h3{margin-bottom:8px}.form p{margin-top:6px}
+.wrapc{flex-wrap:wrap;overflow:visible;padding:2px 0 8px}
+.form input[type=text]{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);font:500 16px 'DM Sans',sans-serif;color:var(--ink);background:#fff;margin-top:8px}
+.form input:focus{outline:2px solid var(--accent)}
+.go{width:100%;background:var(--accent-d);color:#fff;border:0;border-radius:16px;padding:16px;font:700 17px 'DM Sans',sans-serif;box-shadow:0 8px 22px rgba(79,159,230,.35)}
+.go:disabled{opacity:.6}
+.pr{margin:10px 2px;font-size:13px;color:var(--mute)}.pr span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr i{display:block;height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:4px}
+.pr u{display:block;height:100%;width:0;background:var(--accent-d);transition:width .2s}
+.err{color:#c0392b;font-size:14px;margin-top:10px}
+.tile video,.cov video,.cim video{width:100%;height:100%;object-fit:cover;display:block}
+.crow{display:flex;gap:8px;align-items:center}.crow input{margin-top:0!important}.crow .em{width:64px;text-align:center;font-size:22px!important;flex:none}.crow input[data-f=n]{flex:1}.dl{border:0;background:none;font-size:20px;padding:6px}
+.sw{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.swb{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);padding:0}.swb.on{border-color:var(--ink);box-shadow:0 0 0 2px #fff inset}
+/* info card */
+.info{background:var(--card);border-radius:20px;padding:18px;margin:22px 0;box-shadow:0 4px 18px rgba(79,159,230,.1)}
+.info h3{font:600 19px 'DM Sans',sans-serif;display:flex;gap:8px;align-items:center}
+.info p{color:var(--mute);font-size:14px;margin-top:4px}
+.info code{background:var(--bg);border-radius:6px;padding:1px 6px;color:var(--ink)}
+.info ul{margin:8px 0 0 20px;color:var(--mute);font-size:14px}
+.empty{text-align:center;color:var(--mute);padding:60px 20px}
+.empty b{display:block;font:600 22px 'Fraunces',serif;color:var(--ink);margin-bottom:6px}
+/* viewer */
+#view{position:fixed;inset:0;background:rgba(14,30,50,.97);display:none;flex-direction:column;z-index:40;padding:var(--sat) 0 var(--sab)}
+#view.on{display:flex}
+#view .bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;gap:8px}
+#view .bar>div{display:flex;gap:8px}
+#view .b{background:#ffffff1f;color:#fff;border:0;border-radius:999px;padding:10px 16px;font-weight:700;font-size:14px}
+#view .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative}
+#view img{max-width:100%;max-height:100%}
+#view iframe{width:100%;height:100%;border:0;background:#000}
+#view .nv{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:#ffffff26;color:#fff;font-size:22px}
+#prev{left:10px}#next{right:10px}
+#toast{position:fixed;left:50%;bottom:calc(90px + var(--sab));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+#toast.on{opacity:1}
+/* tablet + desktop */
+@media(min-width:700px){.cats{grid-template-columns:repeat(4,1fr);gap:16px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(4,1fr);gap:12px}}
+@media(min-width:1000px){
+  .cards{grid-template-columns:repeat(3,1fr);gap:22px}.grid{grid-template-columns:repeat(5,1fr)}
+  body{padding-bottom:40px;padding-top:calc(64px + var(--sat))}
+  nav{top:0;bottom:auto;justify-content:center;gap:8px;border-top:0;border-bottom:1px solid var(--line);padding:10px 16px}
+  nav a{flex:none;flex-direction:row;gap:8px;font-size:15px;padding:8px 20px;border-radius:999px}
+  nav a.on{background:var(--accent);color:#14355a}
+  header{padding-top:22px}.logo{font-size:44px}.tag{font-size:16px}
+  .card,.ct{transition:transform .2s}.card:hover,.ct:hover{transform:translateY(-4px)}.cats{gap:20px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="#home" data-r="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Home</a>
+  <a href="#albums" data-r="albums"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Albums</a>
+  <a href="#favs" data-r="favs"><svg viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.7A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/></svg>Favorites</a>
+  <a href="#add" data-r="add"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add</a>
+</nav>
+<header>
+  <div class="logo">Sudu<i>&amp;</i><b>Madu</b></div>
+  <p class="tag">Memories we keep together</p>
+  <button class="ref" id="ref" aria-label="Refresh">↻</button>
+</header>
+<main class="wrap" id="app"></main>
+
+<input type="file" id="pick" accept="image/*,video/*" multiple hidden>
+<div id="view">
+  <div class="bar"><button class="b" id="close">✕ Close</button>
+    <div><button class="b" id="fav">♡</button><a class="b" id="open" target="_blank" rel="noopener">Open in Drive</a></div></div>
+  <div class="stage" id="stage"></div>
+</div>
+<div id="toast"></div>
+
+<script>
+// ============ SETTINGS ============
+const API_KEY = 'PASTE_YOUR_API_KEY';
+const ROOT_ID = 'PASTE_YOUR_FOLDER_ID';
+const CLIENT_ID = 'PASTE_YOUR_OAUTH_CLIENT_ID';  // needed for the Add button
+const OWNER_EMAIL = 'PASTE_YOUR_GMAIL';          // the only account allowed to add / edit
+// =====================================================
+const $=id=>document.getElementById(id);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=m=>{const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2000)};
+const th=(id,w)=>`https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
+const im=(it,w)=>it.src||th(it.id,w);
+const thumb=(it,w)=>it.src&&it.src.startsWith('blob:')&&!it.mime.startsWith('image/')?`<video src="${it.src}#t=0.1" preload="metadata" muted playsinline></video>`:`<img src="${im(it,w)}" loading="lazy" alt="">`;
+const FOLDER='application/vnd.google-apps.folder';
+const isMedia=f=>/^(image|video)\//.test(f.mimeType);
+const isPhoto=i=>i.mime.startsWith('image/');
+const getFavs=()=>{try{return JSON.parse(localStorage.getItem('sm_favs')||'[]')}catch(e){return[]}};
+const setFavs=a=>{try{localStorage.setItem('sm_favs',JSON.stringify(a))}catch(e){}};
+
+const DEFAULT_CATS=[
+{k:'birthdays',n:'Birthdays',e:'🎂',m:['birthday'],bg:'#fff0f3'},
+{k:'weddings',n:'Weddings',e:'💍',m:['wedding'],bg:'#fdeee6'},
+{k:'parties',n:'Parties',e:'🎉',m:['part'],bg:'#f0ecff'},
+{k:'family',n:'Family Events',e:'👨‍👩‍👧‍👦',m:['family'],bg:'#eaf4ff'},
+{k:'trips',n:'Trips & Travel',e:'✈️',m:['trip','travel'],bg:'#eaf8ee'},
+{k:'achievements',n:'Achievements',e:'🎓',m:['achiev'],bg:'#fff4e0'},
+{k:'anniversaries',n:'Anniversaries',e:'❤️',m:['anniv'],bg:'#fdeefb'},
+{k:'religious',n:'Religious Events',e:'🛕',m:['relig'],bg:'#e9f6f4'}];
+const OTHER={k:'other',n:'Other',e:'📁',m:[],bg:'#f1f5fa'};
+let CATS=DEFAULT_CATS.map(c=>({...c})),catsFile='',eC=null,me='';
+const COLORS=['#fff0f3','#fdeee6','#f0ecff','#eaf4ff','#eaf8ee','#fff4e0','#fdeefb','#e9f6f4','#f1f5fa'];
+const dm=k=>(DEFAULT_CATS.find(d=>d.k===k)||{m:[]}).m;
+const catOf=c=>{const l=(c||'').trim().toLowerCase();return CATS.find(x=>x.n.toLowerCase()===l||x.m.some(m=>l.includes(m)))||OTHER};
+const svg=(e,c1,c2)=>'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="800" height="600" fill="url(#g)"/><text x="400" y="360" font-size="200" text-anchor="middle">${e}</text></svg>`);
+const dItems=(e,a,b,n)=>Array.from({length:n},(_,i)=>({id:'d'+e+i,name:'demo',mime:i===n-1?'video/mp4':'image/jpeg',src:svg(e,a,b)}));
+const DEMO=[
+{id:'demo1',title:"Son's Birthday",c:CATS[0],year:'2026',items:dItems('🎂','#ffd6e0','#fff1b8',6)},
+{id:'demo2',title:"Malige Aiya's Wedding",c:CATS[1],year:'2025',items:dItems('💍','#fde3d3','#f6f0ff',5)},
+{id:'demo3',title:'Beach Trip',c:CATS[4],year:'2026',items:dItems('✈️','#cfe8ff','#e4f8ee',7)},
+{id:'demo4',title:'New Year Gathering',c:CATS[3],year:'2026',items:dItems('👨‍👩‍👧‍👦','#dcebff','#f0ecff',4)}];
+let demo=false,cur=(location.hash.slice(1)||'home'),prev='',albums=[],cat='All',seg='all',vlist=[],vi=0,ready=false,err='';
+
+async function list(parent){
+  let out=[],tok='';
+  do{
+    const q=encodeURIComponent(`'${parent}' in parents and trashed=false`);
+    const r=await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&pageSize=1000&orderBy=createdTime desc&fields=nextPageToken,files(id,name,mimeType,createdTime)&key=${API_KEY}${tok?'&pageToken='+tok:''}`);
+    const j=await r.json();if(!r.ok)throw new Error(j.error&&j.error.message||r.status);
+    out=out.concat(j.files);tok=j.nextPageToken||'';
+  }while(tok);return out;
+}
+const toItem=f=>({id:f.id,name:f.name,mime:f.mimeType});
+
+async function load(){
+  if(API_KEY.startsWith('PASTE')||ROOT_ID.startsWith('PASTE')){demo=true;albums=DEMO;ready=true;return render()}
+  ready=false;err='';render();
+  try{
+    const root=await list(ROOT_ID);
+    const cf=root.find(f=>f.name==='categories.json');catsFile=cf?cf.id:'';
+    if(cf){try{const rr=await fetch(`https://www.googleapis.com/drive/v3/files/${cf.id}?alt=media&key=${API_KEY}`);const jj=await rr.json();
+      if(Array.isArray(jj)&&jj.length)CATS=jj.map(c=>({k:c.k,n:c.n,e:c.e||'📁',bg:c.bg||'#eaf4ff',m:dm(c.k)}))}catch(e){}}
+    const subs=root.filter(f=>f.mimeType===FOLDER);
+    const kids=await Promise.all(subs.map(f=>list(f.id)));
+    albums=subs.map((f,i)=>{const p=f.name.split('|').map(x=>x.trim());
+      return{id:f.id,title:p[0]||f.name,c:catOf(p[1]),year:p[2]||(f.createdTime||'').slice(0,4),items:kids[i].filter(isMedia).map(toItem)}})
+      .filter(a=>a.items.length);
+    const loose=root.filter(isMedia).map(toItem);
+    if(loose.length)albums.push({id:ROOT_ID,title:'Unsorted',c:OTHER,year:'',items:loose});
+  }catch(e){err=String(e.message)}
+  aS.c=CATS.find(x=>x.k===aS.c.k)||CATS[0];
+  ready=true;render();
+}
+
+const label=a=>{const p=a.items.filter(isPhoto).length,v=a.items.length-p;return p&&v?'Photos & Videos':p?'Photos':'Videos'};
+const card=a=>{const c=a.items.find(isPhoto)||a.items[0];
+  return `<a class="card" href="#a-${a.id}"><div class="cov">${thumb(c,800)}</div><h3>${esc(a.title)}</h3><div class="meta"><span>${esc(a.c.n)}${a.year?' · '+esc(a.year):''}</span><span>${label(a)}</span></div></a>`};
+const tiles=(list,favs)=>`<div class="grid">${list.map((it,i)=>`<button class="tile" data-i="${i}">${thumb(it,400)}${isPhoto(it)?'':'<span class="pl">▶</span>'}${favs.includes(it.id)?'<span class="hh">♥</span>':''}</button>`).join('')}</div>`;
+const chips=(cats,cur)=>`<div class="chips">${cats.map(c=>`<button class="chip${c===cur?' on':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('')}</div>`;
+const catTiles=()=>{const list=[...CATS,...(albums.some(a=>a.c.k==='other')?[OTHER]:[])];
+  return `<div class="cats">${list.map(c=>{const as=albums.filter(a=>a.c.k===c.k);const cv=as[0]&&(as[0].items.find(isPhoto)||as[0].items[0]);
+  return `<a class="ct" href="#c-${c.k}" style="background:${c.bg}"><div class="cim">${cv?`${thumb(cv,600)}`:`<span>${c.e}</span>`}</div><b>${c.e} ${c.n}</b><small>${as.length} album${as.length===1?'':'s'}</small></a>`}).join('')}</div>`};
+const infoCard=`<div class="info"><h3>♡ Our Family Collection</h3><p>A lifetime of memories, collected in one place.</p></div>`;
+
+function route(){const h=cur;return h.startsWith('a-')?{v:'album',id:h.slice(2)}:h.startsWith('c-')?{v:'cat',k:h.slice(2)}:{v:h}}
+
+function render(){draw();if(demo&&ready)$('app').insertAdjacentHTML('afterbegin','<div class="info" style="margin:8px 0 0"><h3>Demo mode</h3><p>Showing sample albums. Add your <code>API_KEY</code> and <code>ROOT_ID</code> at the top of <code>index.html</code> to show your Google Drive photos.</p></div>')}
+function draw(){
+  const r=route(),app=$('app'),favs=getFavs();
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.r===(r.v==='album'?'albums':r.v==='cat'?'home':r.v==='cats'?'add':r.v)));
+  if(!ready){app.innerHTML=`<div class="empty"><b>Loading…</b>Getting your memories from Google Drive</div>`;return}
+  if(err){app.innerHTML=`<div class="empty"><b>Couldn't load</b>${esc(err)}<br><small>Check the folder is shared as “Anyone with the link” and the API key is correct.</small></div>`;return}
+  if(r.v==='add'){app.innerHTML=addPage();return}
+  if(r.v==='cats'){app.innerHTML=catsPage();const b=$('bk');if(b)b.onclick=()=>{eC=null;go('add')};return}
+  if(r.v==='album'){
+    const a=albums.find(x=>x.id===r.id);if(!a){app.innerHTML='<div class="empty"><b>Album not found</b></div>';return}
+    const p=a.items.filter(isPhoto).length,v=a.items.length-p;
+    const l=seg==='photo'?a.items.filter(isPhoto):seg==='video'?a.items.filter(i=>!isPhoto(i)):a.items;
+    vlist=l;
+    app.innerHTML=`<div class="top"><button class="back" id="bk" aria-label="Back">←</button><h2>${esc(a.title)}</h2></div>
+    <p class="sub">${esc(a.c.n)}${a.year?' · '+esc(a.year):''} · ${p} photos · ${v} videos</p>
+    <div class="row"><div class="chips">${[['all','All'],['photo','Photos'],['video','Videos']].map(([k,t])=>`<button class="chip${seg===k?' on':''}" data-seg="${k}">${t}</button>`).join('')}</div>
+    <a class="add" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/${a.id}">＋ Add in Drive</a></div>
+    ${l.length?tiles(l,favs):'<div class="empty">Nothing here yet.</div>'}`;
+    $('bk').onclick=()=>go(prev&&prev!=cur?prev:'albums');return}
+  if(r.v==='favs'){
+    const l=albums.flatMap(a=>a.items).filter(i=>favs.includes(i.id));vlist=l;
+    app.innerHTML=`<h2 class="sec">Favorites</h2>`+(l.length?tiles(l,favs):`<div class="empty"><b>No favorites yet</b>Tap ♡ on any photo or video to keep it here.</div>`);return}
+  if(r.v==='cat'){
+    const c=[...CATS,OTHER].find(x=>x.k===r.k)||OTHER,as=albums.filter(a=>a.c.k===c.k);
+    app.innerHTML=`<div class="top"><button class="back" id="bk" aria-label="Back">←</button><h2>${c.e} ${c.n}</h2></div><p class="sub">${as.length} album${as.length===1?'':'s'}</p>`+
+    (as.length?`<div class="cards">${as.map(card).join('')}</div>`:`<div class="empty"><b>No albums yet</b>Create a Drive folder named<br><code>Title | ${esc(c.n)} | 2026</code></div>`);
+    $('bk').onclick=()=>go('home');return}
+  const cats=['All',...new Set(albums.map(a=>a.c.n))];
+  const shown=albums.filter(a=>cat==='All'||a.c.n===cat);
+  if(r.v==='albums'){
+    app.innerHTML=`<h2 class="sec">Albums</h2>${chips(cats,cat)}${shown.length?`<div class="cards">${shown.map(card).join('')}</div>`:'<div class="empty"><b>No albums yet</b>Create a folder in Drive to start.</div>'}`;return}
+  app.innerHTML=`<h2 class="sec">Categories</h2>${catTiles()}<h2 class="sec">Latest albums</h2>${albums.length?`<div class="cards">${albums.slice(0,6).map(card).join('')}</div>`:'<div class="empty"><b>No albums yet</b>Create a folder in Drive, then tap ↻</div>'}${albums.length>6?'<p style="text-align:center;margin-top:18px"><a class="add" href="#albums">See all albums</a></p>':''}${infoCard}`;
+}
+
+/* ---------- add / upload ---------- */
+const aS={files:[],c:CATS[0],ex:'',name:'',year:String(new Date().getFullYear()),busy:false};
+const fsize=n=>n>1e9?(n/1e9).toFixed(1)+' GB':(n/1e6).toFixed(1)+' MB';
+const canUp=()=>!CLIENT_ID.startsWith('PASTE');
+const locked=()=>!demo&&!me;
+const lockCard=t=>`<div class="addwrap"><h2 class="sec">${t}</h2><div class="info form"><h3>🔒 Owner only</h3><p>Sign in with the owner’s Google account to add photos, videos or edit categories.</p><p style="margin-top:12px"><button class="add" id="signin">Sign in with Google</button></p>${canUp()?'':'<p>Add <code>CLIENT_ID</code> and <code>OWNER_EMAIL</code> at the top of <code>index.html</code> first.</p>'}</div></div>`;
+async function signIn(){
+  if(!canUp())return toast('Add CLIENT_ID in index.html first');
+  try{
+    const tk=await getToken();
+    const r=await fetch('https://www.googleapis.com/drive/v3/about?fields=user(emailAddress)',{headers:{Authorization:'Bearer '+tk}});
+    const j=await r.json(),em=((j.user&&j.user.emailAddress)||'').toLowerCase();
+    if(OWNER_EMAIL.startsWith('PASTE')||em===OWNER_EMAIL.trim().toLowerCase()){me=em;toast('Signed in');render()}
+    else{try{google.accounts.oauth2.revoke(tk)}catch(e){}tok='';tokExp=0;toast('This account is not allowed to add memories')}
+  }catch(e){toast(e.message||'Sign-in failed')}
+}
+function addPage(){
+  if(locked())return lockCard('Add memories');
+  const exs=albums.filter(a=>a.c.k===aS.c.k&&a.id!==ROOT_ID);
+  const total=aS.files.reduce((n,f)=>n+f.size,0);
+  return `<div class="addwrap"><h2 class="sec">Add memories</h2>
+  ${!demo&&!canUp()?'<div class="info"><h3>One-time setup</h3><p>Add your <code>CLIENT_ID</code> at the top of <code>index.html</code> to upload to Google Drive.</p></div>':''}
+  <div class="info form"><h3>Photos &amp; videos</h3><button class="add" id="pickbtn">＋ Choose files</button>
+  <p>${aS.files.length?aS.files.length+' file'+(aS.files.length>1?'s':'')+' · '+fsize(total):'Nothing selected yet'}</p></div>
+  <div class="info form"><h3>Category</h3><div class="chips wrapc">${CATS.map(c=>`<button class="chip${c.k===aS.c.k?' on':''}" data-ac="${c.k}">${c.e} ${c.n}</button>`).join('')}</div><a class="chip" href="#cats" style="display:inline-block">✎ Manage categories</a></div>
+  <div class="info form"><h3>Album</h3>
+  ${exs.length?`<p>Add to an existing album</p><div class="chips wrapc">${exs.map(a=>`<button class="chip${a.id===aS.ex?' on':''}" data-ea="${a.id}">${esc(a.title)}</button>`).join('')}</div><p>Or create a new album</p>`:'<p>Name your new album</p>'}
+  <input type="text" id="aname" placeholder="e.g. Son's Birthday" maxlength="60" value="${esc(aS.name)}">
+  <input type="text" id="ayear" inputmode="numeric" placeholder="Year" maxlength="4" value="${esc(aS.year)}"></div>
+  <button class="go" id="goup">Upload to Google Drive</button><div id="prog"></div></div>`;
+}
+function catsPage(){
+  if(locked())return lockCard('Categories');
+  if(!eC)eC=CATS.map(c=>({...c}));
+  return `<div class="addwrap"><div class="top"><button class="back" id="bk" aria-label="Back">←</button><h2>Categories</h2></div><p class="sub">Rename, recolor, add or remove categories.</p>
+  ${eC.map((c,i)=>`<div class="info form" data-i="${i}"><div class="crow"><input type="text" class="em" data-f="e" value="${esc(c.e)}" maxlength="4" aria-label="Emoji"><input type="text" data-f="n" value="${esc(c.n)}" maxlength="30" aria-label="Name"><button class="dl" data-del="${i}" aria-label="Delete">🗑</button></div>
+  <div class="sw">${COLORS.map(k=>`<button class="swb${k===c.bg?' on':''}" style="background:${k}" data-sw="${i}|${k}" aria-label="Color"></button>`).join('')}</div></div>`).join('')}
+  <p style="margin:6px 0 14px"><button class="add" id="addcat">＋ New category</button></p>
+  <button class="go" id="savecats">Save categories</button></div>`;
+}
+async function writeCats(tk,list){
+  const H={Authorization:'Bearer '+tk};let r;
+  if(catsFile)r=await fetch(`https://www.googleapis.com/upload/drive/v3/files/${catsFile}?uploadType=media`,{method:'PATCH',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify(list)});
+  else{const meta={name:'categories.json',mimeType:'application/json',parents:[ROOT_ID]};
+    r=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{method:'POST',headers:{...H,'Content-Type':'multipart/related; boundary=sm'},body:new Blob([`--sm\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--sm\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(list)}\r\n--sm--`])})}
+  if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(j.error&&j.error.message||'Could not save ('+r.status+')')}
+}
+async function saveCats(){
+  const list=eC.map(c=>({k:c.k,n:(c.n||'').replace(/\|/g,'').trim()||'Untitled',e:(c.e||'').trim()||'📁',bg:c.bg}));
+  const names=list.map(c=>c.n.toLowerCase());
+  if(new Set(names).size!==names.length)return toast('Category names must be different');
+  if(demo){CATS=list.map(c=>({...c,m:dm(c.k)}));albums.forEach(a=>{a.c=CATS.find(x=>x.k===a.c.k)||OTHER});eC=null;toast('Saved');return go('add')}
+  try{
+    const tk=await getToken();
+    for(const c of list){const o=CATS.find(x=>x.k===c.k);
+      if(o&&o.n!==c.n)for(const a of albums.filter(a=>a.c.k===c.k&&a.id!==ROOT_ID)){
+        const r=await fetch(`https://www.googleapis.com/drive/v3/files/${a.id}`,{method:'PATCH',headers:{Authorization:'Bearer '+tk,'Content-Type':'application/json'},body:JSON.stringify({name:`${a.title} | ${c.n} | ${a.year}`})});
+        if(!r.ok)throw new Error('Could not rename album “'+a.title+'”')}}
+    await writeCats(tk,list);eC=null;toast('Categories saved');await load();go('add');
+  }catch(e){toast(e.message||'Save failed')}
+}
+let tok='',tokExp=0,tc;
+function getToken(){return new Promise((res,rej)=>{
+  if(tok&&Date.now()<tokExp)return res(tok);
+  if(!window.google||!google.accounts)return rej(new Error('Google sign-in is still loading. Try again.'));
+  tc=tc||google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:'https://www.googleapis.com/auth/drive',callback:()=>{}});
+  tc.callback=r=>{if(r.error)return rej(new Error(r.error_description||r.error));tok=r.access_token;tokExp=Date.now()+(r.expires_in-60)*1000;res(tok)};
+  tc.requestAccessToken({prompt:tok?'':'consent'})})}
+async function ensureFolder(tk,name){
+  const H={Authorization:'Bearer '+tk};
+  const q=encodeURIComponent(`name='${name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}' and mimeType='${FOLDER}' and '${ROOT_ID}' in parents and trashed=false`);
+  let r=await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id)`,{headers:H}),j=await r.json();
+  if(!r.ok)throw new Error(j.error&&j.error.message||r.status);
+  if(j.files&&j.files[0])return j.files[0].id;
+  r=await fetch('https://www.googleapis.com/drive/v3/files?fields=id',{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({name,mimeType:FOLDER,parents:[ROOT_ID]})});
+  j=await r.json();if(!r.ok)throw new Error(j.error&&j.error.message||r.status);return j.id}
+async function upFile(tk,file,folder,onp){
+  const r=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable',{method:'POST',headers:{Authorization:'Bearer '+tk,'Content-Type':'application/json; charset=UTF-8','X-Upload-Content-Type':file.type||'application/octet-stream'},body:JSON.stringify({name:file.name,parents:[folder]})});
+  if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(j.error&&j.error.message||'Upload failed ('+r.status+')')}
+  const loc=r.headers.get('Location');if(!loc)throw new Error('Could not start upload');
+  await new Promise((res,rej)=>{const x=new XMLHttpRequest();x.open('PUT',loc);
+    x.upload.onprogress=e=>e.lengthComputable&&onp(Math.round(e.loaded/e.total*100));
+    x.onload=()=>x.status<300?res():rej(new Error('Upload failed ('+x.status+')'));x.onerror=()=>rej(new Error('Network error'));x.send(file)})}
+async function startUpload(){
+  if(aS.busy)return;
+  const files=aS.files,title=aS.name.trim(),year=(aS.year||'').trim();
+  const ex=aS.ex&&albums.find(a=>a.id===aS.ex);
+  if(!files.length)return toast('Choose photos or videos first');
+  if(!ex&&!title)return toast('Enter an album name');
+  if(!demo&&!canUp())return toast('Add CLIENT_ID in index.html first');
+  aS.busy=true;$('goup').disabled=true;$('goup').textContent='Uploading…';
+  $('prog').innerHTML=files.map((f,i)=>`<div class="pr"><span>${esc(f.name)}</span><i><u id="p${i}"></u></i></div>`).join('');
+  try{
+    let fid;
+    if(demo){
+      let a=ex||albums.find(x=>x.c.k===aS.c.k&&x.title===title);
+      if(!a){a={id:'demo'+Date.now(),title,c:aS.c,year,items:[]};albums.unshift(a)}
+      files.forEach((f,i)=>{a.items.unshift({id:'u'+Date.now()+i,name:f.name,mime:f.type,src:URL.createObjectURL(f)});const u=$('p'+i);if(u)u.style.width='100%'});
+      fid=a.id;
+    }else{
+      const tk=await getToken();
+      fid=ex?ex.id:await ensureFolder(tk,`${title} | ${aS.c.n.replace(/\|/g,'')} | ${year||new Date().getFullYear()}`);
+      for(let i=0;i<files.length;i++)await upFile(tk,files[i],fid,p=>{const u=$('p'+i);if(u)u.style.width=p+'%'});
+    }
+    aS.files=[];aS.name='';aS.ex='';aS.busy=false;toast('Uploaded ✓');
+    if(!demo)await load();
+    go('a-'+fid);
+  }catch(e){
+    aS.busy=false;const g=$('goup');if(g){g.disabled=false;g.textContent='Try again'}
+    const P=$('prog');if(P)P.insertAdjacentHTML('beforeend',`<p class="err">${esc(e.message||e)}</p>`);
+  }
+}
+$('pick').onchange=e=>{aS.files=[...e.target.files];e.target.value='';if(route().v==='add')render()};
+$('app').addEventListener('input',e=>{
+  if(e.target.dataset.f&&eC){const row=e.target.closest('[data-i]');if(row)eC[+row.dataset.i][e.target.dataset.f]=e.target.value}
+  if(e.target.id==='aname'){aS.name=e.target.value;if(aS.name&&aS.ex){aS.ex='';document.querySelectorAll('[data-ea]').forEach(c=>c.classList.remove('on'))}}
+  if(e.target.id==='ayear')aS.year=e.target.value});
+
+/* viewer */
+function show(i){
+  vi=(i+vlist.length)%vlist.length;const it=vlist[vi];
+  $('stage').innerHTML=(isPhoto(it)||(it.src&&!it.src.startsWith('blob:'))?`<img src="${im(it,2000)}" alt="">`:it.src?`<video src="${it.src}" controls autoplay playsinline style="max-width:100%;max-height:100%"></video>`:`<iframe src="https://drive.google.com/file/d/${it.id}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>`)+(vlist.length>1?'<button class="nv" id="prev">‹</button><button class="nv" id="next">›</button>':'');
+  if(vlist.length>1){$('prev').onclick=()=>show(vi-1);$('next').onclick=()=>show(vi+1)}
+  $('open').href=`https://drive.google.com/file/d/${it.id}/view`;
+  $('fav').textContent=getFavs().includes(it.id)?'♥':'♡';
+  $('view').classList.add('on');
+}
+function hide(){$('view').classList.remove('on');$('stage').innerHTML='';render()}
+$('close').onclick=hide;
+$('fav').onclick=()=>{const id=vlist[vi].id;let f=getFavs();f=f.includes(id)?f.filter(x=>x!==id):[...f,id];setFavs(f);$('fav').textContent=f.includes(id)?'♥':'♡';toast(f.includes(id)?'Added to favorites':'Removed')};
+document.addEventListener('keydown',e=>{if(!$('view').classList.contains('on'))return;
+  if(e.key==='Escape')hide();if(e.key==='ArrowRight')show(vi+1);if(e.key==='ArrowLeft')show(vi-1)});
+
+$('app').addEventListener('click',e=>{
+  const ac=e.target.closest('[data-ac]');if(ac){aS.c=CATS.find(x=>x.k===ac.dataset.ac);aS.ex='';render();return}
+  const ea=e.target.closest('[data-ea]');if(ea){aS.ex=aS.ex===ea.dataset.ea?'':ea.dataset.ea;if(aS.ex)aS.name='';render();return}
+  if(e.target.closest('#signin')){signIn();return}
+  const sw=e.target.closest('[data-sw]');if(sw){const[i,k]=sw.dataset.sw.split('|');eC[+i].bg=k;render();return}
+  const dl=e.target.closest('[data-del]');if(dl){const c=eC[+dl.dataset.del];
+    if(albums.some(a=>a.c.k===c.k)){toast('This category has albums. Rename it instead.');return}
+    eC.splice(+dl.dataset.del,1);render();return}
+  if(e.target.closest('#addcat')){eC.push({k:'c'+Date.now(),n:'New category',e:'📁',bg:COLORS[eC.length%COLORS.length]});render();return}
+  if(e.target.closest('#savecats')){saveCats();return}
+  if(e.target.closest('#pickbtn')){$('pick').click();return}
+  if(e.target.closest('#goup')){startUpload();return}
+  const t=e.target.closest('.tile');if(t){show(+t.dataset.i);return}
+  const c=e.target.closest('[data-cat]');if(c){cat=c.dataset.cat;render();return}
+  const s=e.target.closest('[data-seg]');if(s){seg=s.dataset.seg;render()}
+});
+$('ref').onclick=()=>{load();toast('Refreshing…')};
+function go(h){prev=cur;cur=h;if(h==='cats')eC=null;seg='all';try{if(location.hash!=='#'+h)history.pushState(null,'','#'+h)}catch(e){}render();scrollTo(0,0)}
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();go(a.getAttribute('href').slice(1))});
+addEventListener('popstate',()=>{cur=location.hash.slice(1)||'home';seg='all';render()});
+addEventListener('hashchange',()=>{cur=location.hash.slice(1)||'home';render()});
+load();
+</script>
+</body>
+</html>
